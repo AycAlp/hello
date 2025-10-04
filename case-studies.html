@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Case Studies • Active Learning</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Active Learning</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="strategies.html">Strategies</a>
+        <a href="case-studies.html" aria-current="page">Case Studies</a>
+        <a href="resources.html">Resources</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" role="main" class="section">
+    <div class="container">
+      <h1>Case Studies</h1>
+      <p class="muted">Examples of active learning in context.</p>
+
+      <div class="cards three" id="case-list"></div>
+    </div>
+  </main>
+
+  <script src="assets/js/data.js" defer></script>
+  <script defer>
+    function createCard(item){
+      const div = document.createElement('div');
+      div.className = 'card';
+      const meta = `${item.context} • Impact: ${item.impact}`;
+      div.innerHTML = `<h4>${item.title}</h4><p>${meta}</p>`;
+      const link = document.createElement('a');
+      link.href = item.link; link.className = 'btn secondary'; link.textContent = 'Read more';
+      div.appendChild(document.createElement('div')).appendChild(link);
+      return div;
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      const list = document.getElementById('case-list');
+      CASE_STUDIES.forEach(c => list.appendChild(createCard(c)));
+    });
+  </script>
+</body>
+</html>
