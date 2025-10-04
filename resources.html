@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resources • Active Learning</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Active Learning</a>
+      <nav class="nav">
+        <a href="strategies.html">Strategies</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="resources.html" aria-current="page">Resources</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <h1>Resources</h1>
+      <p class="muted">Guides, readings, and external links to deepen practice.</p>
+
+      <div class="cards three" id="resource-list"></div>
+    </div>
+  </main>
+
+  <script defer>
+    const RESOURCES = [
+      { title: 'Evidence for Active Learning', summary: 'Key meta-analyses and reports.', link: '#' },
+      { title: 'Inclusive Teaching Strategies', summary: 'Practical inclusive pedagogy guides.', link: '#' },
+      { title: 'Large Lecture Playbook', summary: 'High-enrollment course tactics.', link: '#' },
+    ];
+    function createCard(item){
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.innerHTML = `<h4>${item.title}</h4><p>${item.summary}</p>`;
+      const a = document.createElement('a'); a.href = item.link; a.className = 'btn secondary'; a.textContent = 'Open';
+      div.appendChild(document.createElement('div')).appendChild(a);
+      return div;
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      const list = document.getElementById('resource-list');
+      RESOURCES.forEach(r => list.appendChild(createCard(r)));
+    });
+  </script>
+</body>
+</html>

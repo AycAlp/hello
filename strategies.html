@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Strategies • Active Learning</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Active Learning</a>
+      <nav class="nav">
+        <a href="strategies.html" aria-current="page">Strategies</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="resources.html">Resources</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <h1>Strategies</h1>
+      <p class="muted">Filter by time, class size, and tags.</p>
+
+      <div class="grid two" style="align-items:flex-start;">
+        <aside>
+          <label class="visually-hidden" for="q">Search</label>
+          <input id="q" class="input" placeholder="Search strategies..." />
+          <div style="height: 12px"></div>
+          <label class="visually-hidden" for="tag">Tag</label>
+          <select id="tag" class="input">
+            <option value="">All tags</option>
+          </select>
+        </aside>
+        <section>
+          <div class="cards three" id="strategy-list"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/js/data.js" defer></script>
+  <script defer>
+    function normalize(text){ return text.toLowerCase(); }
+    function createCard(item){
+      const div = document.createElement('div');
+      div.className = 'card';
+      const meta = `${item.time} • ${item.classSize} • ${item.tags.join(', ')}`;
+      div.innerHTML = `<h4>${item.title}</h4><p>${item.summary}</p><div class="meta">${meta}</div>`;
+      const link = document.createElement('a');
+      link.href = `strategy.html?id=${encodeURIComponent(item.id)}`;
+      link.className = 'btn secondary';
+      link.textContent = 'View details';
+      div.appendChild(document.createElement('div')).appendChild(link);
+      return div;
+    }
+    function renderTags(){
+      const select = document.getElementById('tag');
+      const tags = new Set();
+      STRATEGIES.forEach(s => s.tags.forEach(t => tags.add(t)));
+      [...tags].sort().forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t; opt.textContent = t; select.appendChild(opt);
+      });
+    }
+    function renderList(){
+      const list = document.getElementById('strategy-list');
+      list.innerHTML = '';
+      const q = normalize(document.getElementById('q').value || '');
+      const tag = document.getElementById('tag').value || '';
+      STRATEGIES.filter(s => {
+        const matchesQ = !q || s.title.toLowerCase().includes(q) || s.summary.toLowerCase().includes(q);
+        const matchesTag = !tag || s.tags.includes(tag);
+        return matchesQ && matchesTag;
+      }).forEach(s => list.appendChild(createCard(s)));
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      renderTags();
+      renderList();
+      document.getElementById('q').addEventListener('input', renderList);
+      document.getElementById('tag').addEventListener('change', renderList);
+    });
+  </script>
+</body>
+</html>
